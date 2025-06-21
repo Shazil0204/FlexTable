@@ -1,0 +1,5 @@
+Backend/appsettings.json
+Backend/appsettings.Development.json
+/Backend/bin
+/Backend/obj
+/Backend/Migrations
