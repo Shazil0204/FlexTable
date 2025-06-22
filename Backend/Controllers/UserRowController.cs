@@ -16,40 +16,36 @@ namespace Backend.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAllRowsAsync([FromQuery] int pageNumber = 1)
+        public async Task<IActionResult> GetAllRows([FromQuery] int pageNumber = 1)
         {
             var result = await _userRowService.GetAllRowsAsync(pageNumber).ConfigureAwait(false);
             return Ok(result);
         }
 
         [HttpGet("{id:int}")]
-        public async Task<IActionResult> GetRowByIdAsync(int id)
+        public async Task<IActionResult> GetRowById(int id)
         {
             var result = await _userRowService.GetRowByIdAsync(id).ConfigureAwait(false);
             return result != null ? Ok(result) : NotFound($"User row with ID {id} not found.");
         }
 
         [HttpGet("table/{tableId:int}")]
-        public async Task<IActionResult> GetAllRowsByTableIdAsync(int tableId)
+        public async Task<IActionResult> GetAllRowsByTableId(int tableId)
         {
             var result = await _userRowService.GetAllRowsByTableIdAsync(tableId).ConfigureAwait(false);
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateRowAsync([FromBody] string data, [FromQuery] int tableId)
+        public async Task<IActionResult> CreateRow([FromBody] string data, [FromQuery] int tableId)
         {
-            if (string.IsNullOrWhiteSpace(data))
-            {
-                return BadRequest("Data cannot be null or empty.");
-            }
-
+            if (string.IsNullOrWhiteSpace(data)) return BadRequest("Data cannot be null or empty.");
             var result = await _userRowService.CreateRowAsync(data, tableId).ConfigureAwait(false);
-            return CreatedAtAction(nameof(GetRowByIdAsync), new { id = result.Id }, result);
+            return CreatedAtAction(nameof(GetRowById), new { id = result.Id }, result);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateRowAsync(int id, [FromBody] string data)
+        public async Task<IActionResult> UpdateRow(int id, [FromBody] string data)
         {
             if (data == null)
             {
@@ -61,7 +57,7 @@ namespace Backend.Controllers
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> DeleteRowAsync(int id)
+        public async Task<IActionResult> DeleteRow(int id)
         {
             bool deleted = await _userRowService.DeleteRowAsync(id).ConfigureAwait(false);
             return deleted ? NoContent() : NotFound($"User row with ID {id} not found.");

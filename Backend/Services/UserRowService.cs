@@ -86,8 +86,7 @@ namespace Backend.Services
                 return UserRowMapper.MapToDTO(existingUserRow);
             }
 
-            // Use the update mapper instead of the create mapper
-            UserRow updatedUserRow = UserRowMapper.UpdateToEntity(existingUserRow, data);
+            UserRow updatedUserRow = UserRowMapper.MapToEntity(data, existingUserRow.TableId);
             UserRow updatedRow = await _userRowRepo.UpdateRowAsync(id, updatedUserRow).ConfigureAwait(false);
             return UserRowMapper.MapToDTO(updatedRow);
         }
