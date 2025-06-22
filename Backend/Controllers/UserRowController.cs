@@ -49,14 +49,14 @@ namespace Backend.Controllers
         }
 
         [HttpPut("{id:int}")]
-        public async Task<IActionResult> UpdateRowAsync(int id, [FromBody] UpdateUserRowRequestDTO dto)
+        public async Task<IActionResult> UpdateRowAsync(int id, [FromBody] string data)
         {
-            if (dto == null)
+            if (data == null)
             {
-                return BadRequest("UpdateUserRowRequestDTO cannot be null.");
+                return BadRequest("Data cannot be null.");
             }
 
-            var result = await _userRowService.UpdateRowAsync(id, dto).ConfigureAwait(false);
+            var result = await _userRowService.UpdateRowAsync(id, data).ConfigureAwait(false);
             return Ok(result);
         }
 

@@ -75,18 +75,19 @@ namespace Backend.Services
             return UserRowMapper.MapToDTO(createdRow);
         }
 
-        public async Task<GetUserRowResponseDTO> UpdateRowAsync(int id, UpdateUserRowRequestDTO dto)
+        public async Task<GetUserRowResponseDTO> UpdateRowAsync(int id, string data)
         {
-            if (dto == null) throw new ArgumentNullException(nameof(dto), "UpdateUserRowRequestDTO cannot be null.");
+            if (string.IsNullOrWhiteSpace(data)) throw new ArgumentException("Data cannot be null or empty.", nameof(data));
             UserRow? existingUserRow = await _userRowRepo.GetRowByIdAsync(id).ConfigureAwait(false)
                 ?? throw new KeyNotFoundException($"User row with ID {id} not found.");
 
-            if (!UserRowMapper.HasActualUpdates(dto, existingUserRow))
+            if (!UserRowMapper.HasActualUpdates(data, existingUserRow))
             {
                 return UserRowMapper.MapToDTO(existingUserRow);
             }
 
-            UserRow updatedUserRow = UserRowMapper.UpdateToEntity(existingUserRow, dto);
+            // Use the update mapper instead of the create mapper
+            UserRow updatedUserRow = UserRowMapper.UpdateToEntity(existingUserRow, data);
             UserRow updatedRow = await _userRowRepo.UpdateRowAsync(id, updatedUserRow).ConfigureAwait(false);
             return UserRowMapper.MapToDTO(updatedRow);
         }

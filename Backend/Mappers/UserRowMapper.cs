@@ -25,17 +25,16 @@ namespace Backend.Mappers
         }
 
         #region Update Methods
-        public static bool HasActualUpdates(UpdateUserRowRequestDTO dto, UserRow existingUserRow)
+        public static bool HasActualUpdates(string data, UserRow existingUserRow)
         {
             return
-            (!string.IsNullOrWhiteSpace(dto.Name) && dto.Name != existingUserRow.Table?.Name) ||
-            (dto.Data != null && dto.Data != existingUserRow.Data);
+            !string.IsNullOrWhiteSpace(data) && data != existingUserRow.Data;
         }
 
-        public static UserRow UpdateToEntity(UserRow entity, UpdateUserRowRequestDTO dto)
+        public static UserRow UpdateToEntity(UserRow entity, string data)
         {
             entity.TableId = entity.TableId;
-            entity.Data = dto.Data ?? entity.Data;
+            entity.Data = data ?? entity.Data;
 
             return entity;
         }

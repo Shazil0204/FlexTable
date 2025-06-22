@@ -9,7 +9,7 @@ namespace Backend.Interfaces
         Task<GetUserRowResponseDTO?> GetRowByIdAsync(int id);
         Task<List<GetUserRowResponseDTO>> GetAllRowsByTableIdAsync(int tableId);
         Task<GetUserRowResponseDTO> CreateRowAsync(string data, int tableId);
-        Task<GetUserRowResponseDTO> UpdateRowAsync(int id, UpdateUserRowRequestDTO dto);
+        Task<GetUserRowResponseDTO> UpdateRowAsync(int id, string data);
         Task<bool> DeleteRowAsync(int id);
     }
 }
